@@ -46,7 +46,7 @@ class SyncForecastCommand extends Command
 
                 $forecast->data = json_encode($forecastService->todayWeather($user));
 
-                Cache::put("forecast_user_{$user->id}", new ForecastResource($forecast));
+                Cache::put("forecast_user_{$user->id}", new ForecastResource($forecast->load('user')));
             }
         });
 

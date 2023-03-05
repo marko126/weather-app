@@ -16,6 +16,7 @@ class CurrentWeatherTransformer implements ResponseTransformerInterface
         $result->temperature = (int)$dto->main->temp;
         $result->temperatureFeeling = (int)$dto->main->feels_like;
         $result->description = $dto->weather[0]->main;
+        $result->icon = $dto->weather[0]->icon;
         $result->humidity = (int)$dto->main->humidity;
         $result->pressure = (int)$dto->main->pressure;
         $result->windSpeed = (int)$dto->wind->speed;

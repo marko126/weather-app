@@ -34,7 +34,7 @@ class ForecastController extends Controller
         $forecast->data = json_encode($forecastData);
         $forecast->save();
 
-        $forecastResource = new ForecastResource($forecast);
+        $forecastResource = new ForecastResource($forecast->load('user'));
 
         Cache::put("forecast_user_$id", $forecastResource);
 

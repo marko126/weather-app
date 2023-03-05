@@ -12,6 +12,8 @@ class ForecastDto extends DataTransferObject implements JsonSerializable
 
     public string $description;
 
+    public string $icon;
+
     public int $pressure;
 
     public int $humidity;
