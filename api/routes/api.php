@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ForecastController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return response()->json([
-        'message' => 'all systems are a go',
-        'users' => \App\Models\User::all(),
-    ]);
-});
+Route::get('/', [DashboardController::class, 'index']);
+
+Route::get('weather/today/{id}', [ForecastController::class, 'today']);

@@ -19,6 +19,8 @@ class CurrentWeatherDto
 
     public CloudDto $clouds;
 
+    public SystemDto $sys;
+
     public int $timezone;
 
     public string $name;

@@ -24,13 +24,13 @@ class ForecastDto extends DataTransferObject implements JsonSerializable
 
     public int $cloudCover;
 
-    public int $rainOneHour;
+    public int|null $rainOneHour;
 
-    public int $rainTreeHours;
+    public int|null $rainTreeHours;
 
-    public int $snowOneHour;
+    public int|null $snowOneHour;
 
-    public int $snowTreeHours;
+    public int|null $snowTreeHours;
 
     public string $city;
 

@@ -9,7 +9,7 @@ interface ForecastInterface
 {
     /**
      * @param User|null $user
-     * @return ForecastDto|ForecastDto[]
+     * @return ForecastDto|array|null
      */
-    public function todayWeather(?User $user = null): ForecastDto|array;
+    public function todayWeather(?User $user = null): ForecastDto|array|null;
 }
