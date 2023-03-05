@@ -38,8 +38,8 @@ export default {
           <td>
             <RouterLink :to="`user/${user.id}`">{{ user.name }}</RouterLink>
           </td>
-          <td>{{ user.forecast.data.temperature }}</td>
-          <td>{{ user.forecast.data.description }}</td>
+          <td>{{ user.forecast ? user.forecast.data.temperature : '' }}</td>
+          <td>{{ user.forecast ? user.forecast.data.description : '' }}</td>
         </tr>
       </tbody>
     </table>
