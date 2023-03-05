@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class UserResource
@@ -27,7 +28,10 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'latitude' => $this->latitude,
-            'longitude' => $this->longitude
+            'longitude' => $this->longitude,
+            'forecast' => $this->whenLoaded('forecast', function () {
+                return new ForecastResource($this->forecast);
+            }),
         ];
     }
 }

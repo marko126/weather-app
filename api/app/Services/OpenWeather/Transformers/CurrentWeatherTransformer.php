@@ -22,12 +22,12 @@ class CurrentWeatherTransformer implements ResponseTransformerInterface
         $result->windGust = (int)$dto->wind->gust;
         $result->windDirection = WindDirectionTransformer::transform($dto->wind->deg);
         $result->cloudCover = (int)$dto->clouds->all;
-        $result->rainOneHour = isset($dto->rain) ? (int)$dto->rain->{'1h'} : null;
-        $result->rainTreeHours = isset($dto->rain) ? (int)$dto->rain->{'3h'} : null;
-        $result->snowOneHour = isset($dto->snow) ? (int)$dto->snow->{'1h'} : null;
-        $result->snowTreeHours = isset($dto->rain) ? (int)$dto->snow->{'3h'} : null;
+        $result->rainOneHour = isset($dto->rain) && isset($dto->rain->{'1h'}) ? (int)$dto->rain->{'1h'} : null;
+        $result->rainTreeHours = isset($dto->rain) && isset($dto->rain->{'3h'}) ? (int)$dto->rain->{'3h'} : null;
+        $result->snowOneHour = isset($dto->snow) && isset($dto->snow->{'1h'}) ? (int)$dto->snow->{'1h'} : null;
+        $result->snowTreeHours = isset($dto->rain) && isset($dto->snow->{'3h'}) ? (int)$dto->snow->{'3h'} : null;
         $result->city = $dto->name;
-        $result->country = $dto->sys->country;
+        $result->country = $dto->sys->country ?? 'N/A';
         $result->timezone = $dto->timezone;
 
         return $result;

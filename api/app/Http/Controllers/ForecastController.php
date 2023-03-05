@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserResource;
+use App\Http\Resources\ForecastResource;
+use App\Models\Forecast;
 use App\Models\User;
 use App\Services\ForecastInterface;
 use Illuminate\Http\JsonResponse;
@@ -15,10 +16,11 @@ class ForecastController extends Controller
         $user = User::findOrFail($id);
 
         if (Cache::has("forecast_user_$id")) {
-            return $this->respond([
-                'user' => new UserResource($user),
-                'forecast' => Cache::get("forecast_user_$id")
-            ]);
+            return $this->respond(Cache::get("forecast_user_$id"));
+        }
+
+        if ($user->forecast) {
+            return $this->respond(new ForecastResource($user->forecast->load('user')));
         }
 
         $forecastData = $service->todayWeather($user);
@@ -27,11 +29,15 @@ class ForecastController extends Controller
             return $this->respondError();
         }
 
-        Cache::put("forecast_user_$id", $forecastData);
+        $forecast = new Forecast();
+        $forecast->user_id = $id;
+        $forecast->data = json_encode($forecastData);
+        $forecast->save();
 
-        return $this->respond([
-            'user' => new UserResource($user),
-            'forecast' => $forecastData,
-        ]);
+        $forecastResource = new ForecastResource($forecast);
+
+        Cache::put("forecast_user_$id", $forecastResource);
+
+        return $this->respond($forecastResource);
     }
 }

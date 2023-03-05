@@ -61,7 +61,7 @@ class OpenWeatherForecastService implements ForecastInterface
             return CurrentWeatherTransformer::transform($data);
         } catch (GuzzleException|Exception $e) {
             Log::error(__METHOD__ . ': ' . $e->getMessage());
-throw $e;
+
             return null;
         }
     }
