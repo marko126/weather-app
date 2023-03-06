@@ -2,12 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Resources\ForecastResource;
-use App\Models\Forecast;
+use App\Events\CreateCurrentForecastEvent;
 use App\Models\User;
 use App\Services\ForecastInterface;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 
 class SyncForecastCommand extends Command
 {
@@ -38,15 +36,7 @@ class SyncForecastCommand extends Command
             /** @var User $user */
             foreach ($users as $user) {
                 $progress->advance();
-                $forecast = $user->forecast;
-
-                if (!$forecast) {
-                    $forecast = new Forecast(['user_id' => $user->id]);
-                }
-
-                $forecast->data = json_encode($forecastService->todayWeather($user));
-
-                Cache::put("forecast_user_{$user->id}", new ForecastResource($forecast->load('user')));
+                event(new CreateCurrentForecastEvent($user));
             }
         });
 
